@@ -1,0 +1,19 @@
+@startuml
+[*] --> Ready : создание графа
+state "Готово" as Ready
+state "Анимация" as Running
+state "Пауза" as Paused
+state "M циклов завершены" as Finished
+Ready --> Running : Старт
+Ready --> Paused : переход или цикл
+Running --> Paused : Пауза
+Paused --> Running : Старт
+Paused --> Paused : переход или цикл
+Running --> Finished : выполнено M циклов
+Paused --> Finished : выполнено M циклов вручную
+Ready --> Ready : Сброс / новый граф
+Running --> Ready : Сброс / новый граф
+Paused --> Ready : Сброс / новый граф
+Finished --> Ready : Сброс / новый граф
+Finished --> [*] : закрытие окна
+@enduml

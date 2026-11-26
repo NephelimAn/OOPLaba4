@@ -1,0 +1,82 @@
+@startuml
+skinparam classAttributeIconSize 0
+class Main { +main(args: String[]): void }
+class ColonyFrame {
+  -colony: AntColony
+  -optimum: Tour
+  -reset(): void
+  -tick(): void
+  -refresh(): void
+}
+class GraphPanel {
+  -colony: AntColony
+  +setColony(colony): void
+  #paintComponent(graphics): void
+}
+class Parameters {
+  +ants: int
+  +iterations: int
+  +alpha: double
+  +beta: double
+  +rho: double
+  +q: double
+  +seed: long
+}
+class Graph {
+  -nodes: List<Node>
+  -edges: List<Edge>
+  +random(count, seed): Graph
+  +edge(a, b): Edge
+  +resetPheromone(): void
+}
+class Node {
+  -id: int
+  -x: double
+  -y: double
+}
+class Edge {
+  -distance: double
+  -pheromone: double
+  +evaporate(rho): void
+  +deposit(amount): void
+}
+class Ant {
+  -visited: boolean[]
+  -route: int[]
+  -position: int
+  +chooseNextCity(): int
+  +move(): void
+  +getTour(): Tour
+}
+class Tour {
+  -cities: int[]
+  -length: double
+  +getLength(): double
+}
+class AntColony {
+  -best: Tour
+  -history: List<Double>
+  -iteration: int
+  +advance(): void
+  +runIteration(): void
+  -finishIteration(): void
+}
+class ExactSolver { +{static} solve(graph): Tour }
+Main ..> ColonyFrame
+ColonyFrame *-- GraphPanel
+ColonyFrame --> AntColony
+ColonyFrame ..> ExactSolver
+GraphPanel --> AntColony
+AntColony --> Graph
+AntColony --> Parameters
+AntColony *-- "1..*" Ant
+AntColony o-- Tour
+Graph *-- "3..*" Node
+Graph *-- "3..*" Edge
+Edge --> "2" Node
+Ant --> Graph
+Ant --> Parameters
+Ant ..> Tour
+ExactSolver ..> Graph
+ExactSolver ..> Tour
+@enduml

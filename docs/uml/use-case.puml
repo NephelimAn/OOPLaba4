@@ -1,0 +1,18 @@
+@startuml
+left to right direction
+actor "Пользователь" as User
+rectangle "Муравьиная колония" {
+  usecase "Задать параметры" as Parameters
+  usecase "Создать / сбросить граф" as Reset
+  usecase "Запустить / приостановить" as Run
+  usecase "Выполнить переход / цикл" as Step
+  usecase "Наблюдать визуализацию" as View
+  usecase "Сравнить с оптимумом\nпри n <= 12" as Compare
+}
+User --> Parameters
+User --> Reset
+User --> Run
+User --> Step
+User --> View
+User --> Compare
+@enduml

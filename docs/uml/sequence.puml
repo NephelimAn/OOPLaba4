@@ -1,0 +1,34 @@
+@startuml
+actor Пользователь
+participant ColonyFrame
+participant "Swing Timer" as Timer
+participant AntColony
+participant Ant
+participant Graph
+participant Edge
+participant GraphPanel
+Пользователь -> ColonyFrame: Старт
+ColonyFrame -> Timer: start()
+loop Пока не завершены M циклов
+  Timer -> ColonyFrame: tick()
+  opt Начало перехода
+    ColonyFrame -> AntColony: advance()
+    loop Каждый муравей
+      AntColony -> Ant: move()
+      Ant -> Ant: chooseNextCity()
+      Ant -> Graph: edge(current, candidate)
+      Graph --> Ant: Edge
+      Ant -> Edge: getPheromone(), getDistance()
+    end
+    opt Все муравьи вернулись в начало
+      AntColony -> Ant: getTour()
+      AntColony -> AntColony: обновить рекорд и историю
+      AntColony -> Edge: evaporate(rho)
+      AntColony -> Edge: deposit(Q / L)
+    end
+  end
+  ColonyFrame -> GraphPanel: setProgress(progress)
+  GraphPanel -> AntColony: прочитать данные для рисования
+end
+ColonyFrame -> Timer: stop()
+@enduml

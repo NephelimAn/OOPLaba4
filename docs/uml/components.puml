@@ -1,0 +1,21 @@
+@startuml
+package "Java-приложение" {
+  component "Точка входа\nMain" as Entry
+  component "Интерфейс\nColonyFrame, GraphPanel" as UI
+  component "Алгоритм\nAntColony, Ant, Parameters" as Algorithm
+  component "Модель графа\nGraph, Node, Edge, Tour" as Model
+  component "Точная проверка\nExactSolver" as Exact
+}
+component "Java SE\nSwing / AWT" as Java
+component "Проверки\nColonyTest" as Tests
+Entry --> UI
+UI --> Algorithm
+UI --> Model
+UI --> Exact
+UI --> Java
+Algorithm --> Model
+Exact --> Model
+Tests --> Algorithm
+Tests --> Exact
+Tests --> UI
+@enduml
